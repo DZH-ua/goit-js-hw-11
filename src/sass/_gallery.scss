@@ -13,7 +13,7 @@ body {
 
 .gallery {
   display: grid;
-  max-width: 1600px;
+  
   grid-template-columns: repeat(auto-fit, minmax(240px, 280));
   grid-gap: 20px;
   justify-content: center;
