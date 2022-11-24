@@ -36,7 +36,8 @@ function onButtonSubmitSearchImg(event) {
     })
     .catch(() => {
       failureSearchResult();
-    });
+    })
+    .finally(() => refs.form.reset());;
 }
 
 function renderGalleryCard({ hits }) {
@@ -99,10 +100,10 @@ function infoSearchResult() {
   );
 }
 
-const lightbox = () => {
+function lightbox() {
   new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionPosition: 'bottom',
     captionDelay: 250,
   });
-};
+}

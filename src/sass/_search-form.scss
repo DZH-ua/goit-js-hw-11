@@ -1,12 +1,17 @@
+:root {
+  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-duration: 250ms;
+}
+
 #search-box {
   font: inherit;
+  line-height: 1.4em;
   padding: 8px;
   width: 300px;
   cursor: pointer;
   border-radius: 4px;
   outline: none;
   border: none;
-  // position: absolute;
 }
 
 #search-button {
@@ -16,15 +21,16 @@
   border: none;
   padding-top: 1px;
   padding-bottom: 1px;
-  height: 30px;
+  height: 34px;
   position: relative;
   z-index: 100;
   top: 2;
-  left: -35;
+  left: -34;
 }
 
 #search-button:hover {
-  transform: scale(1.05);
+  transform: scale(1.07);
+  transition: transform var(--animation-duration) var(--timing-function);
 }
 
 .search-form {
