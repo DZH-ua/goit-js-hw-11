@@ -37,7 +37,7 @@ function fetchImagesGallery() {
         renderGalleryCard(images);
         galleryApiService.incrementPage();
       } else {
-        console.log('No such images...');
+        console.log('No such images....');
         throw new Error();
       }
     })
