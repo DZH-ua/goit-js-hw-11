@@ -25,6 +25,7 @@ function onButtonSubmitSearchImg(event) {
 }
 
 function fetchImagesGallery() {
+  
   galleryApiService
     .fetchGallery()
     .then(images => {
@@ -92,6 +93,7 @@ function renderGalleryCard({ hits }) {
 }
 
 function onLoadMoreBtn() {
+
   galleryApiService
     .fetchGallery()
     .then(images => {
