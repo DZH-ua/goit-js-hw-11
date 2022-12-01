@@ -13,7 +13,6 @@ body {
 
 .gallery {
   display: grid;
-
   grid-template-columns: repeat(auto-fit, minmax(240px, 280));
   grid-gap: 20px;
   justify-content: center;
@@ -22,6 +21,7 @@ body {
   list-style: none;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 2px;
 }
 
 .gallery__item {
@@ -39,10 +39,9 @@ body {
   display: block;
   text-decoration: none;
   height: 100%;
-}
-
-.gallery__link:hover {
-  cursor: zoom-in;
+  &:hover {
+    cursor: zoom-in;
+  }
 }
 
 .info {
@@ -56,8 +55,10 @@ body {
 .info-item {
   font-size: 12px;
   color: black;
-  flex-basis: calc((100% - 50px) / 4);
-  justify-content: center;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .gallery__item:hover {
