@@ -2,7 +2,6 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import Notiflix from 'notiflix';
 import GalleryApiService from './js/fetchGallery';
-import axios from 'axios';
 
 const refs = {
   form: document.querySelector('#search-form'),
