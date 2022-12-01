@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const BASE_URL = 'https://pixabay.com/api/';
 const KEY = '31544512-8bf60b33bb9dd079e91f3808d';
-const axios = require('axios');
 
 export default class GalleryApiService {
   constructor() {
