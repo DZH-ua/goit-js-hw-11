@@ -10,12 +10,11 @@ export default class GalleryApiService {
     this.page = 1;
   }
 
-  fetchGallery() {
+  async fetchGallery() {
     const url = `${BASE_URL}?key=${KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
 
-    return axios.get(url).then(response => {
-      return response.data;
-    });
+    const response = await axios.get(url);
+    return response.data;
   }
 
   incrementPage() {
