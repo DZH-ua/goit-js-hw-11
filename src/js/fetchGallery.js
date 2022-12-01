@@ -13,8 +13,7 @@ export default class GalleryApiService {
   async fetchGallery() {
     const url = `${BASE_URL}?key=${KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
 
-    const response = await axios.get(url);
-    return response.data;
+    return await axios.get(url).then(response => response.data);
   }
 
   incrementPage() {
