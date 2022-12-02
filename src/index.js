@@ -11,39 +11,36 @@ const refs = {
 };
 
 const galleryApiService = new GalleryApiService();
-const lightbox = new SimpleLightbox('.gallery a');
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+});
 
 refs.form.addEventListener('submit', onButtonSubmitSearchImg);
-refs.loadMoreBtn.addEventListener('click', onLoadMoreBtn);
+refs.loadMoreBtn.addEventListener('click', fetchImagesGallery);
 
 function onButtonSubmitSearchImg(event) {
   event.preventDefault();
   galleryApiService.query = event.currentTarget.elements.searchQuery.value;
+
+  if (galleryApiService.query === '') {
+    return;
+  }
   galleryApiService.resetPage();
+
   clearGalleryContainer();
   fetchImagesGallery();
 }
 
 function fetchImagesGallery() {
-  
   galleryApiService
     .fetchGallery()
     .then(images => {
-      if (images.totalHits > 0) {
-        console.log(images);
-        console.log('Images found...');
-        refs.loadMoreBtn.classList.remove('is-hidden');
-        successSearchResult(images);
-        renderGalleryCard(images);
-        galleryApiService.incrementPage();
-      } else {
-        console.log('No such images....');
-        throw new Error();
-      }
+      checkSeacrhResult(images);
     })
-    .catch(() => {
-      refs.loadMoreBtn.classList.add('is-hidden');
-      failureSearchResult();
+    .catch(error => {
+      error;
     })
     .finally(() => refs.form.reset());
 }
@@ -92,24 +89,6 @@ function renderGalleryCard({ hits }) {
   lightbox.refresh();
 }
 
-function onLoadMoreBtn() {
-
-  galleryApiService
-    .fetchGallery()
-    .then(images => {
-      if (images.hits.length > 0) {
-        renderGalleryCard(images);
-        galleryApiService.incrementPage();
-      } else {
-        throw new Error();
-      }
-    })
-    .catch(() => {
-      refs.loadMoreBtn.classList.add('is-hidden');
-      infoSearchResult();
-    });
-}
-
 function failureSearchResult() {
   Notiflix.Notify.failure(
     'Sorry, there are no images matching your search query. Please try again.'
@@ -130,4 +109,44 @@ function infoSearchResult() {
 
 function clearGalleryContainer() {
   refs.galleryContainer.innerHTML = '';
+}
+
+function smoothScrolling() {
+  if (galleryApiService.page > 1) {
+    const { height: cardHeight } =
+      refs.galleryContainer.firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 0.7,
+      behavior: 'smooth',
+    });
+  }
+}
+
+function checkSeacrhResult(result) {
+  if (result.hits.length > 0) {
+    console.log(result);
+    console.log('Images found...');
+    loadMoreButtonCondition(result);
+    successSearchResult(result);
+    renderGalleryCard(result);
+    smoothScrolling();
+    galleryApiService.incrementPage();
+  } else if (result.totalHits === 0) {
+    refs.loadMoreBtn.classList.add('is-hidden');
+    console.log('No such images....');
+    throw new Error(failureSearchResult());
+  } else {
+    refs.loadMoreBtn.classList.add('is-hidden');
+    console.log('No images for load....');
+    throw new Error(infoSearchResult());
+  }
+}
+
+function loadMoreButtonCondition(result) {
+  if (result.totalHits > 40) {
+    refs.loadMoreBtn.classList.remove('is-hidden');
+  } else {
+    refs.loadMoreBtn.classList.add('is-hidden');
+  }
 }

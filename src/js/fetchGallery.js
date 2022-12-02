@@ -16,8 +16,7 @@ export default class GalleryApiService {
   }
 
   incrementPage() {
-    this.page += 1;
-    console.log(this.page);
+    this.page += 1;    
   }
 
   resetPage() {
