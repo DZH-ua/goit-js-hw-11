@@ -33,16 +33,20 @@ function onButtonSubmitSearchImg(event) {
   fetchImagesGallery();
 }
 
-function fetchImagesGallery() {
-  galleryApiService
-    .fetchGallery()
-    .then(images => {
-      checkSeacrhResult(images);
-    })
-    .catch(error => {
-      error;
-    })
-    .finally(() => refs.form.reset());
+async function fetchImagesGallery() {
+  try {
+    await galleryApiService
+      .fetchGallery()
+      .then(images => {
+        checkSeacrhResult(images);
+      })
+      .catch(error => {
+        error;
+      })
+      .finally(() => refs.form.reset());
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function renderGalleryCard({ hits }) {
