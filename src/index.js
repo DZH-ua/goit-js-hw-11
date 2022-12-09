@@ -40,12 +40,9 @@ async function fetchImagesGallery() {
       .then(images => {
         checkSeacrhResult(images);
       })
-      .catch(error => {
-        error;
-      })
       .finally(() => refs.form.reset());
   } catch (error) {
-    console.log(error);
+    error;
   }
 }
 
