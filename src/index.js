@@ -34,6 +34,7 @@ function onButtonSubmitSearchImg(event) {
 }
 
 async function fetchImagesGallery() {
+  refs.loadMoreBtn.classList.add('is-hidden');
   try {
     await galleryApiService
       .fetchGallery()
@@ -118,7 +119,7 @@ function smoothScrolling() {
       refs.galleryContainer.firstElementChild.getBoundingClientRect();
 
     window.scrollBy({
-      top: cardHeight * 0.7,
+      top: cardHeight * 2.15,
       behavior: 'smooth',
     });
   }
@@ -126,21 +127,25 @@ function smoothScrolling() {
 
 function checkSeacrhResult(result) {
   if (result.hits.length > 0) {
-    console.log(result);
-    console.log('Images found...');
-    loadMoreButtonCondition(result);
-    successSearchResult(result);
-    renderGalleryCard(result);
-    smoothScrolling();
-    galleryApiService.incrementPage();
-  } else if (result.totalHits === 0) {
+    if (galleryApiService.page === 1 || result.hits.length === 40) {
+      console.log(result);
+      console.log('Images found...');
+      loadMoreButtonCondition(result);
+      successSearchResult(result);
+      renderGalleryCard(result);
+      smoothScrolling();
+      galleryApiService.incrementPage();
+    } else {
+      renderGalleryCard(result);
+      smoothScrolling();
+      refs.loadMoreBtn.classList.add('is-hidden');
+      console.log('No images for load....');
+      throw new Error(infoSearchResult());
+    }
+  } else {
     refs.loadMoreBtn.classList.add('is-hidden');
     console.log('No such images....');
     throw new Error(failureSearchResult());
-  } else {
-    refs.loadMoreBtn.classList.add('is-hidden');
-    console.log('No images for load....');
-    throw new Error(infoSearchResult());
   }
 }
 
